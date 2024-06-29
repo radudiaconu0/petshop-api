@@ -21,4 +21,9 @@ class Brand extends Model
     {
         return ['uuid'];
     }
+
+    public function findByUuid($uuid)
+    {
+        return $this->where('uuid', $uuid)->first();
+    }
 }

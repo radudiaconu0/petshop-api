@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use SoftDeletes, HasFactory, HasUuids;
+    use HasFactory, HasUuids, SoftDeletes;
 
     protected function casts()
     {
@@ -23,5 +23,10 @@ class Product extends Model
     public function uniqueIds()
     {
         return ['uuid'];
+    }
+
+    public function findByUuid($uuid)
+    {
+        return $this->where('uuid', $uuid)->first();
     }
 }

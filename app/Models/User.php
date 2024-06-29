@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasUuids;
+    use HasFactory, HasUuids, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +18,15 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
+        'address',
+        'is_admin',
+        'is_marketing',
+        'uuid',
+        'password',
+        'avatar',
+        'phone_number',
         'email',
         'password',
     ];
@@ -49,5 +57,15 @@ class User extends Authenticatable
     public function uniqueIds()
     {
         return ['uuid'];
+    }
+
+    public function findByUuid($uuid)
+    {
+        return $this->where('uuid', $uuid)->first();
+    }
+
+    public function jwtTokens()
+    {
+        return $this->hasMany(JWTToken::class);
     }
 }

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use Illuminate\Http\Request;
 
@@ -28,10 +29,10 @@ class BrandController extends Controller
         return $brand;
     }
 
-    public function update(Request $request, Brand $brand)
+    public function update(Request $request, $uuid)
     {
+        $brand = Brand::findByUuid($uuid);
         $data = $request->validate([
-            'uuid' => ['required'],
             'title' => ['required'],
             'slug' => ['required'],
         ]);

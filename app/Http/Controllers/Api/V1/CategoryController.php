@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,6 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'uuid' => ['required'],
             'title' => ['required'],
             'slug' => ['required'],
         ]);

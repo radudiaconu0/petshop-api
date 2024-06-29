@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
-use App\Models\Post;
+use App\Http\Controllers\Controller;
+use App\Models\Promotion;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class PromotionController extends Controller
 {
     public function index()
     {
-        return Post::all();
+        return Promotion::all();
     }
 
     public function store(Request $request)
@@ -17,37 +18,35 @@ class PostController extends Controller
         $data = $request->validate([
             'uuid' => ['required'],
             'title' => ['required'],
-            'slug' => ['required'],
             'content' => ['required'],
             'metadata' => ['required'],
         ]);
 
-        return Post::create($data);
+        return Promotion::create($data);
     }
 
-    public function show(Post $post)
+    public function show(Promotion $promotion)
     {
-        return $post;
+        return $promotion;
     }
 
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Promotion $promotion)
     {
         $data = $request->validate([
             'uuid' => ['required'],
             'title' => ['required'],
-            'slug' => ['required'],
             'content' => ['required'],
             'metadata' => ['required'],
         ]);
 
-        $post->update($data);
+        $promotion->update($data);
 
-        return $post;
+        return $promotion;
     }
 
-    public function destroy(Post $post)
+    public function destroy(Promotion $promotion)
     {
-        $post->delete();
+        $promotion->delete();
 
         return response()->json();
     }
