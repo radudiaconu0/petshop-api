@@ -29,4 +29,14 @@ class Order extends Model
     {
         return $this->where('uuid', $uuid)->first();
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function order_status()
+    {
+        return $this->belongsTo(OrderStatus::class);
+    }
 }

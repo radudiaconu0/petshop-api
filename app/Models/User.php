@@ -68,4 +68,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(JWTToken::class);
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
