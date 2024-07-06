@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Models\JWTToken;
 use App\Models\User;
 use App\Services\JwtService;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
 class UserController extends Controller
@@ -29,7 +31,7 @@ class UserController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if (! $user || ! Auth::attempt($request->only('email', 'password'))) {
+        if (!$user || !Auth::attempt($request->only('email', 'password'))) {
             return ResponseHelper::error('Invalid credentials', status: 401);
         }
 
@@ -44,7 +46,7 @@ class UserController extends Controller
     {
         $jwt = $request->cookie('jwt');
 
-        if (! $jwt) {
+        if (!$jwt) {
             ResponseHelper::error(['error' => 'Token not provided'], status: 401);
         }
 
@@ -86,8 +88,8 @@ class UserController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if (! $user) {
-            return ResponseHelper::error('User not found', status: 404);
+        if (!$user) {
+            return ResponseHelper::error('Invalid e-mail', errors: ['email' => 'User not found'], status: 404);
         }
 
         $token = Password::createToken($user);
@@ -98,34 +100,29 @@ class UserController extends Controller
     public function resetPassword(Request $request)
     {
         $request->validate([
-            'token' => 'required|string',
             'email' => 'required|email',
+            'token' => 'required|string',
             'password' => 'required|string|min:8|confirmed',
         ]);
-
-        $user = User::where('email', $request->email)->first();
-
-        if (! $user) {
-            return ResponseHelper::error('User not found', status: 404);
-        }
-
-        $token = $request->token;
 
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function (User $user, string $password) {
                 $user->forceFill([
-                    'password' => Hash::make($password),
-                ])->save();
+                    'password' => Hash::make($password)
+                ]);
+
+                $user->save();
+
                 event(new PasswordReset($user));
             }
         );
 
-        if ($status === Password::PASSWORD_RESET) {
-            return ResponseHelper::success(['message' => __($status)]);
+        if ($status !== Password::PASSWORD_RESET) {
+            return ResponseHelper::error('Invalid token', errors: ['token' => 'Token is invalid'], status: 400);
         }
 
-        return ResponseHelper::error(__($status), [], []);
+        return ResponseHelper::success(['message' => 'Password reset successfully']);
 
     }
 }
