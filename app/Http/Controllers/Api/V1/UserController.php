@@ -125,4 +125,23 @@ class UserController extends Controller
         return ResponseHelper::success(['message' => 'Password reset successfully']);
 
     }
+    public function editUser(Request $request)
+    {
+        $request->validate([
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required|string|min:8|confirmed',
+            'avatar' => 'nullable|string',
+            'address' => 'nullable|string',
+            'phone_number' => 'nullable|string',
+            'is_marketing' => 'boolean',
+        ]);
+
+        $user = $request->user();
+
+        $user->update($request->only('first_name', 'last_name', 'email', 'avatar', 'address', 'phone_number', 'is_marketing'));
+
+        return ResponseHelper::success($user);
+    }
 }

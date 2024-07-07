@@ -25,6 +25,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('orders', [UserController::class, 'getOrders'])->middleware('jwt.auth');
         Route::post('forgot-password', [UserController::class, 'forgotPassword']);
         Route::post('reset-password-token', [UserController::class, 'resetPassword']);
+        Route::put('edit', [UserController::class, 'editUser'])->middleware('jwt.auth');
     });
     Route::apiResource('categories', CategoryController::class);
     Route::get('main/blog', [MainPageController::class, 'getBlogPosts']);
