@@ -39,4 +39,11 @@ class Order extends Model
     {
         return $this->belongsTo(OrderStatus::class);
     }
+
+    public function products()
+    {
+        $products = $this->products;
+        return Product::whereIn('uuid', $products)->get();
+    }
+
 }

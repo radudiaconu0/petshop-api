@@ -10,7 +10,8 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "lcobucci/clock": "^3.2",
-        "lcobucci/jwt": "^5.3"
+        "lcobucci/jwt": "^5.3",
+        "spatie/laravel-pdf": "^1.5"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.0",

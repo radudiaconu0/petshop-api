@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\AdminController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\MainPageController;
+use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('reset-password-token', [UserController::class, 'resetPassword']);
         Route::put('edit', [UserController::class, 'editUser'])->middleware('jwt.auth');
     });
+    Route::apiResource('orders', OrderController::class)->middleware('jwt.auth');
+    Route::post('/order/{order:uuid}/download', [OrderController::class, 'downloadOrderReceipt'])->middleware('jwt.auth');
     Route::apiResource('categories', CategoryController::class);
     Route::get('main/blog', [MainPageController::class, 'getBlogPosts']);
 });

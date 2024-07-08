@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Spatie\LaravelPdf\Facades\Pdf;
 
 class OrderController extends Controller
 {
@@ -59,5 +60,15 @@ class OrderController extends Controller
         $order->delete();
 
         return response()->json();
+    }
+
+    public function downloadOrderReceipt(Order $order)
+    {
+
+        $products = $order->products();
+
+        $pdf = Pdf::loadView('order-receipt', compact('order', 'products'));
+
+        return $pdf->download(sprintf('order-receipt-%s.pdf', $order->uuid));
     }
 }
