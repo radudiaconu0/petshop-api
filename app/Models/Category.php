@@ -24,4 +24,13 @@ class Category extends Model
     {
         return $this->where('uuid', $uuid)->first();
     }
+
+    public function apiObject()
+    {
+        return [
+            'uuid' => $this->uuid,
+            'title' => $this->name,
+            'slug' => $this->slug,
+        ];
+    }
 }

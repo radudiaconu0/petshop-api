@@ -27,4 +27,20 @@ class Payment extends Model
     {
         return $this->where('uuid', $uuid)->first();
     }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function apiObject()
+    {
+        return [
+            'uuid' => $this->uuid,
+            'type' => $this->type,
+            'details' => $this->details,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
+    }
 }

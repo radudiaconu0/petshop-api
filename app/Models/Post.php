@@ -26,4 +26,15 @@ class Post extends Model
     {
         return $this->where('uuid', $uuid)->first();
     }
+
+    public function apiObject()
+    {
+        return [
+            'uuid' => $this->uuid,
+            'title' => $this->title,
+            'content' => $this->content,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
+    }
 }

@@ -29,4 +29,32 @@ class Product extends Model
     {
         return $this->where('uuid', $uuid)->first();
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function brand()
+    {
+        $metadata = $this->metadata;
+        $brand_uuid = $metadata['brand'];
+
+        return Brand::findByUuid($brand_uuid);
+    }
+
+    public function getBrandAttribute()
+    {
+        return $this->brand();
+    }
+
+    public function apiObject()
+    {
+        return [
+            'uuid' => $this->uuid,
+            'category' => $this->category->apiObject(),
+            'brand' => $this->brand->apiObject(),
+            'metadata' => $this->metadata,
+        ];
+    }
 }

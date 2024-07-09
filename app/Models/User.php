@@ -59,9 +59,9 @@ class User extends Authenticatable
         return ['uuid'];
     }
 
-    public function findByUuid($uuid)
+    public static function findByUuid($uuid)
     {
-        return $this->where('uuid', $uuid)->first();
+        return self::where('uuid', $uuid)->first();
     }
 
     public function jwtTokens()

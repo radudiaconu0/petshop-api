@@ -42,6 +42,8 @@ class JwtService
         JWTToken::create([
             'user_id' => $user->id,
             'unique_id' => $jti,
+            'restrictions' => '[]',
+            'permissions' => '[*]',
             'last_used_at' => now(),
             'refreshed_at' => now(),
             'token_title' => 'Access Token',

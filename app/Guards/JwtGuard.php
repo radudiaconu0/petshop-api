@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Auth;
+namespace App\Guards;
 
 use App\Models\User;
 use App\Services\JwtService;

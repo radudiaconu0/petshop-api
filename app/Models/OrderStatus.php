@@ -25,4 +25,19 @@ class OrderStatus extends Model
     {
         return $this->where('uuid', $uuid)->first();
     }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function apiObject()
+    {
+        return [
+            'uuid' => $this->uuid,
+            'title' => $this->title,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
+    }
 }

@@ -40,10 +40,42 @@ class Order extends Model
         return $this->belongsTo(OrderStatus::class);
     }
 
+    public function payment()
+    {
+        return $this->belongsTo(Payment::class);
+    }
+
     public function products()
     {
         $products = $this->products;
-        return Product::whereIn('uuid', $products)->get();
+        // get uuid from products
+        $uuids = array_column($products, 'uuid');
+        $quantity = array_column($products, 'quantity');
+
+        // get products from database
+        $products = Product::whereIn('uuid', $uuids)->get();
+
+        // add quantity to products
+
+        foreach ($products as $key => $product) {
+
+            $product->quantity = $quantity[$key];
+        }
+
+        return $products;
     }
 
+    public function apiObject()
+    {
+        return [
+            'uuid' => $this->uuid,
+            'products' => $this->products,
+            'payment' => $this->payment?->apiObject(),
+            'order_status' => $this->order_status?->apiObject(),
+            'address' => $this->address,
+            'shipped_at' => $this->shipped_at,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
+    }
 }
