@@ -153,7 +153,7 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/forgot-password",
+     *     path="/api/v1/user/forgot-password",
      *     summary="Forgot password",
      *     tags={"User"},
      *     @OA\RequestBody(
@@ -186,7 +186,7 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/reset-password",
+     *     path="/api/v1/user/reset-password-token",
      *     summary="Reset password",
      *     tags={"User"},
      *     @OA\RequestBody(

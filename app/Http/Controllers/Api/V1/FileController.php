@@ -15,13 +15,15 @@ class FileController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'uuid' => ['required'],
-            'name' => ['required'],
-            'path' => ['required'],
-            'size' => ['required'],
-            'type' => ['required'],
-        ]);
+        $file = $request->file('file');
+
+        $data = [
+            'uuid' => $request->uuid,
+            'name' => $file->getClientOriginalName(),
+            'path' => $file->store('files'),
+            'size' => $file->getSize(),
+            'type' => $file->getMimeType(),
+        ];
 
         return File::create($data);
     }

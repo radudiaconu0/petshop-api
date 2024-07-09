@@ -6,7 +6,8 @@ composer update
 ## Generate the RSA Key Pair
 You can use OpenSSL to generate the RSA key pair.
 
-Install OpenSSL: If you don't have OpenSSL installed, you can download it from here.
+Install OpenSSL: If you don't have OpenSSL installed, you can download it from 
+https://slproweb.com/products/Win32OpenSSL.html
 
 Generate the Private Key:
 Open a Command Prompt and run the following command:
@@ -52,6 +53,11 @@ php artisan serve
 ```
 
 You can now access the server at http://localhost:8000
+
+## Generate documentation
+```bash
+php artisan l5-swagger:generate
+```
 
 ## access open api documentation
 ```bash
